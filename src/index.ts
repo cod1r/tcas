@@ -5,7 +5,7 @@ import { io } from "socket.io-client";
 import * as Peer from "simple-peer";
 import type { Instance as PeerType } from "simple-peer";
 
-let socket = io("https://gregarious-meerkat-069dbb.netlify.app");
+let socket = io("https://tcas-signaling-server.herokuapp.com/");
 // let socket = io("http://localhost:3001");
 
 let peerConnections: Map<string, PeerType> = new Map();
