@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "typescript": "^4.6.3"
+  },
+  "dependencies": {
+    "simple-peer": "^9.11.1",
+    "socket.io": "^4.4.1"
+  }
+}
