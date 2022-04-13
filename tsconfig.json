@@ -1,0 +1,16 @@
+{
+	"compilerOptions": {
+		"target": "ES6",
+		"allowJs": true,
+		"noImplicitAny": true,
+		"removeComments": true,
+		"moduleResolution": "node"
+	},
+	"lib": [
+		"ES6",
+		"DOM"
+	],
+	"include": [
+		"src/*.ts"
+	]
+}
