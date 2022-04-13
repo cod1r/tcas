@@ -1,7 +1,7 @@
 {
 	"scripts": {
 		"dev": "cp src/index.html build/index.html && tsc && webpack build --config ./webpack.config.js && python -m http.server -d build/",
-		"build": "tsc && webpack build --config ./webpack.prod.config.js"
+		"build": "mkdir build && cp src/index.html build/index.html && tsc && webpack build --config ./webpack.prod.config.js"
 	},
 	"devDependencies": {
 		"@types/simple-peer": "^9.11.4",
