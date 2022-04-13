@@ -3,7 +3,44 @@
 // y coordinate.
 import { io } from "socket.io-client";
 import * as Peer from "simple-peer";
+import type { Instance as PeerType } from "simple-peer";
 
+let socket = io("https://gregarious-meerkat-069dbb.netlify.app");
+// let socket = io("http://localhost:3001");
+
+let peerConnections: Map<string, PeerType> = new Map();
+
+socket.on("pjoin", (...args) => {
+	let peer: PeerType = new Peer({ initiator: true });
+	let peerConnectionID = Date.now();
+	peer.on("signal", data => {
+		let socketidOther = args[0];
+		socket.emit("signal", socketidOther, peerConnectionID, data);
+	});
+	peer.on("connect", () => {
+		console.log(String(peerConnectionID) + " has connected");
+	});
+	peerConnections.set(String(peerConnectionID), peer);
+});
+
+socket.on("preply", (...args) => {
+	let peerConnectionID = args[1];
+	let reply = args[2];
+	let socketidOther = args[0];
+	if (peerConnections.has(peerConnectionID)) {
+		peerConnections.get(peerConnectionID).signal(reply);
+	}
+	else {
+		let peer = new Peer();
+		peer.signal(reply);
+		peer.on("signal", data => {
+			socket.emit("signal", socketidOther, peerConnectionID, data);
+		});
+		peerConnections.set(peerConnectionID, peer);
+	}
+});
+
+// Canvas Rendering Part
 let canvas: HTMLElement | HTMLCanvasElement | null = document.getElementById("canvas");
 let ctx = (canvas as HTMLCanvasElement).getContext("2d");
 
