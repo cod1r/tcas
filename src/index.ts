@@ -5,8 +5,8 @@ import { io } from "socket.io-client";
 import Peer from "simple-peer";
 import type { Instance as PeerType } from "simple-peer";
 
-// let socket = io("https://tcas-signaling-server.herokuapp.com/");
-let socket = io("http://192.168.1.252:3001");
+let socket = io("https://tcas-signaling-server.herokuapp.com/");
+// let socket = io("http://192.168.1.252:3001");
 
 let peerConnections: Map<string, {connected: boolean, peer: PeerType}> = new Map();
 let otherPeerLocations: Map<string, {x: number, y: number, facing_angle: number}> = new Map();
