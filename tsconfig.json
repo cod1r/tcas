@@ -4,7 +4,9 @@
 		"allowJs": true,
 		"noImplicitAny": true,
 		"removeComments": true,
-		"moduleResolution": "node"
+		"module": "esnext",
+		"moduleResolution": "node",
+		"esModuleInterop": true
 	},
 	"lib": [
 		"ES6",
@@ -12,5 +14,8 @@
 	],
 	"include": [
 		"src/*.ts"
+	],
+	"exclude": [
+		"./node_modules"
 	]
 }

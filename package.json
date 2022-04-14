@@ -10,6 +10,7 @@
 		"webpack-cli": "^4.9.2"
 	},
 	"dependencies": {
+		"node-polyfill-webpack-plugin": "^1.1.4",
 		"simple-peer": "^9.11.1",
 		"socket.io-client": "^4.4.1"
 	}
