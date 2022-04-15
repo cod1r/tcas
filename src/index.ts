@@ -45,8 +45,8 @@ class Triangle {
 }
 
 
-let socket = io("https://tcas-signaling-server.herokuapp.com/");
-// let socket = io("http://192.168.1.252:3001");
+// let socket = io("https://tcas-signaling-server.herokuapp.com/");
+let socket = io("http://192.168.1.252:3001");
 
 let peerConnections: Map<string, {connected: boolean, peer: PeerType}> = new Map();
 let otherPeerLocations: Map<string, {x: number, y: number, facing_angle: number}> = new Map();
@@ -208,7 +208,7 @@ function drawRadar() {
 	);
 	radarCtx.fill();
 	for (const [peerConnectionID, {x, y, facing_angle}] of otherPeerLocations) {
-		if (Math.sqrt((x - tri.location[0])**2 + (y - tri.location[1])**2) <= 800) {
+		if (Math.sqrt((x - tri.location[0])**2 + (y - tri.location[1])**2) <= 1000) {
 			radarCtx.beginPath();
 			radarCtx.arc(
 				(radar as HTMLCanvasElement).width / 2 + (x - tri.location[0]) * 250 / 1500, 
@@ -224,9 +224,47 @@ function drawRadar() {
 	radarCtx.stroke();
 }
 
+function drawCHILLWOAHDANGER() {
+	ctx.beginPath();
+	let msg = "CHILL";
+	ctx.font = "20px sans-serif";
+	ctx.fillStyle = "green";
+	for (const [peerConnectionID, {x, y, facing_angle}] of otherPeerLocations) {
+		let distance = Math.sqrt((x - tri.location[0])**2 + (y - tri.location[1])**2);
+		if (distance <= 400 && msg === "CHILL") {
+			ctx.fillStyle = "orange";
+			msg = "WOAH";
+		}
+		else if (distance <= 100) {
+			ctx.fillStyle = "red";
+			msg = "DANGER";
+		}
+	}
+	ctx.fillText(
+		`${msg}`, 
+		tri.location[0] + globalOffset[0], 
+		tri.location[1] + globalOffset[1] + 20
+	);
+	ctx.stroke();
+	ctx.font = "10px sans-serif";
+	ctx.fillStyle = "black";
+}
+
+function drawWorldBorder() {
+	ctx.beginPath();
+	ctx.strokeRect(-mapSize[0] / 2 + globalOffset[0], -mapSize[1] / 2 + globalOffset[1], mapSize[0], mapSize[1]);
+	ctx.stroke();
+}
+
 function render() {
 	ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-	if (keysPressed.has("ArrowUp")) {
+	if (
+		keysPressed.has("ArrowUp") && 
+		tri.location[0] + -5 * Math.cos(tri.facing_angle) <= mapSize[0] / 2 &&
+		tri.location[1] + -5 * Math.sin(tri.facing_angle) <= mapSize[1] / 2 &&
+		tri.location[0] + -5 * Math.cos(tri.facing_angle) >= -mapSize[0] / 2 &&
+		tri.location[1] + -5 * Math.sin(tri.facing_angle) >= -mapSize[1] / 2
+	) {
 		tri.updateLocation([
 			tri.location[0] + -5 * Math.cos(tri.facing_angle), 
 			tri.location[1] + -5 * Math.sin(tri.facing_angle)
@@ -254,7 +292,9 @@ function render() {
 	}
 
 	sendInfo();
+	drawWorldBorder();
 	tri.draw();
+	drawCHILLWOAHDANGER();
 	drawOtherPeers();
 	if (Date.now() - prevDate >= 1000) {
 		drawRadar();
