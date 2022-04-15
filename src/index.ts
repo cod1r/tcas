@@ -231,7 +231,7 @@ function drawCHILLWOAHDANGER() {
 	ctx.fillStyle = "green";
 	for (const [peerConnectionID, {x, y, facing_angle}] of otherPeerLocations) {
 		let distance = Math.sqrt((x - tri.location[0])**2 + (y - tri.location[1])**2);
-		if (distance <= 400 && msg === "CHILL") {
+		if (distance <= 400 && distance > 100 && msg === "CHILL") {
 			ctx.fillStyle = "orange";
 			msg = "WOAH";
 		}
