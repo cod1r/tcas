@@ -51,6 +51,8 @@ let socket = io("https://tcas-signaling-server.herokuapp.com/");
 let peerConnections: Map<string, {connected: boolean, peer: PeerType}> = new Map();
 let otherPeerLocations: Map<string, {x: number, y: number, facing_angle: number}> = new Map();
 let canvas: HTMLElement | HTMLCanvasElement | null = document.getElementById("canvas");
+(canvas as HTMLCanvasElement).width = window.innerWidth;
+(canvas as HTMLCanvasElement).height = window.innerHeight;
 let radar: HTMLElement | HTMLCanvasElement | null = document.getElementById("radar");
 let mapSize: [number, number] = [1500, 1500];
 let ctx = (canvas as HTMLCanvasElement).getContext("2d");
@@ -66,8 +68,8 @@ let tri: Triangle = new Triangle(
 );
 let keysPressed: Set<string> = new Set();
 let globalOffset: [number, number] = [
-	(canvas as HTMLCanvasElement).width - tri.location[0], 
-	(canvas as HTMLCanvasElement).height - tri.location[1]
+	(canvas as HTMLCanvasElement).width / 2 - tri.location[0], 
+	(canvas as HTMLCanvasElement).height / 2 - tri.location[1]
 ];
 // console.log(tri.location);
 // console.log(globalOffset);
@@ -128,8 +130,6 @@ socket.on("preply", (...args) => {
 });
 
 // Canvas Rendering Part
-(canvas as HTMLCanvasElement).width = window.innerWidth;
-(canvas as HTMLCanvasElement).height = window.innerHeight;
 
 window.onkeydown = function (e) {
 	switch (e.key) {
