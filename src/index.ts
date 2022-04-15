@@ -45,8 +45,8 @@ class Triangle {
 }
 
 
-// let socket = io("https://tcas-signaling-server.herokuapp.com/");
-let socket = io("http://192.168.1.252:3001");
+let socket = io("https://tcas-signaling-server.herokuapp.com/");
+// let socket = io("http://192.168.1.252:3001");
 
 let peerConnections: Map<string, {connected: boolean, peer: PeerType}> = new Map();
 let otherPeerLocations: Map<string, {x: number, y: number, facing_angle: number}> = new Map();
