@@ -229,16 +229,18 @@ function drawCHILLWOAHDANGER() {
 	let msg = "CHILL";
 	ctx.font = "20px sans-serif";
 	ctx.fillStyle = "green";
+	let min: number = Number.MAX_SAFE_INTEGER;
 	for (const [peerConnectionID, {x, y, facing_angle}] of otherPeerLocations) {
 		let distance = Math.sqrt((x - tri.location[0])**2 + (y - tri.location[1])**2);
-		if (distance <= 400 && distance > 100) {
-			ctx.fillStyle = "orange";
-			msg = "WOAH";
-		}
-		else if (distance <= 100) {
-			ctx.fillStyle = "red";
-			msg = "DANGER";
-		}
+		min = Math.min(min, distance);
+	}
+	if (distance <= 400 && distance > 100) {
+		ctx.fillStyle = "orange";
+		msg = "WOAH";
+	}
+	else if (distance <= 100) {
+		ctx.fillStyle = "red";
+		msg = "DANGER";
 	}
 	ctx.fillText(
 		`${msg}`, 
