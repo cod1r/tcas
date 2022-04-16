@@ -234,11 +234,11 @@ function drawCHILLWOAHDANGER() {
 		let distance = Math.sqrt((x - tri.location[0])**2 + (y - tri.location[1])**2);
 		min = Math.min(min, distance);
 	}
-	if (distance <= 400 && distance > 100) {
+	if (min <= 400 && min > 100) {
 		ctx.fillStyle = "orange";
 		msg = "WOAH";
 	}
-	else if (distance <= 100) {
+	else if (min <= 100) {
 		ctx.fillStyle = "red";
 		msg = "DANGER";
 	}
