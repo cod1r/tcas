@@ -207,6 +207,7 @@ function drawRadar() {
 		2*Math.PI
 	);
 	radarCtx.fill();
+	radarCtx.fillStyle = "red";
 	for (const [peerConnectionID, {x, y, facing_angle}] of otherPeerLocations) {
 		if (Math.sqrt((x - tri.location[0])**2 + (y - tri.location[1])**2) <= 1000) {
 			radarCtx.beginPath();
@@ -221,6 +222,7 @@ function drawRadar() {
 			radarCtx.stroke();
 		}
 	}
+	radarCtx.fillStyle = "black";
 	radarCtx.stroke();
 }
 
